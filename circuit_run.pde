@@ -1,21 +1,19 @@
-Player P1 = new Player (25 , 200 , 5 , 25);
-Enemy E1 = new Enemy (150 , 200 , 5 , 25);
+Player p1 = new Player (25 , 200 , 5 , 25);
+Enemy e1 = new Enemy (150 , 200 , 5 , 25);
+GameState play = new GameState ();
 
 void setup () {
-  background(255);
   size(400,400);
 }
 
 void draw () {
-  background(255);
+  background(0);
   
-  collisionDetection();
-}
-
-void collisionDetection () {
-  if (radius > dist(x,200,250,y)) {
-    xSpeed = 0;
-    ySpeed = 0;
-    fill(#3DFA0A);
-  }
+  p1.drawP();
+  e1.drawE();
+  
+  p1.moveP();
+  e1.moveE();
+  
+  play.collisionDetection();
 }

@@ -1,50 +1,66 @@
-float x , y;
-float xSpeed , ySpeed;
-float radius;
+
 
 class Player {
-
+  float playerX , playerY;
+  float xSpeed;
+  float playerRadius;
+  
   Player (float pX, float pY , float xSpeedValue, float radiusValue) {
-    x = pX;
-    y = pY;
+    playerX = pX;
+    playerY = pY;
     xSpeed = xSpeedValue;
-    radius = radiusValue;
+    playerRadius = radiusValue;
   }
   
-  void drawPlayer () {
+  void drawP () {
     fill(#FA0A26);
-    ellipse(x, y, radius, radius);
+    ellipse(playerX, playerY, playerRadius, playerRadius);
   }
   
-  void movePlayer () {
+  void moveP () {
     if (mousePressed == true) {
-      x = x + xSpeed;
+      playerX = playerX + xSpeed;
     }
-    if (x > 375) {
-      x = 25;
+    if (playerX > 375) {
+      playerX = 25;
     }
   }
 }
 
 class Enemy {
+  float enemyX , enemyY;
+  float ySpeed;
+  float enemyRadius;
+
+  
   
   Enemy (float eX, float eY , float ySpeedValue , float radiusValue ) {
-    x = eX;
-    y = eY;
+    enemyX = eX;
+    enemyY = eY;
     ySpeed = ySpeedValue;
-    radius = radiusValue;
+    enemyRadius = radiusValue;
   }
   
-  void drawEnemy () {
+  void drawE () {
     fill(#0A3CFA);
-    ellipse(x, y, radius, radius);
+    ellipse(enemyX, enemyY, enemyRadius, enemyRadius);
   }
   
-  void moveEnemy () {
-    y = y + ySpeed;
+  void moveE () {
+    enemyY = enemyY + ySpeed;
     
-    if (y > 375 || y < 25) {
+    if (enemyY > 375 || enemyY < 25) {
       ySpeed = ySpeed * -1;
+    }
+  }
+}
+
+class GameState {
+
+  void collisionDetection () {
+    if (p1.playerRadius > dist(p1.playerX , p1.playerY , e1.enemyX , e1.enemyY)) {
+      p1.xSpeed = 0;
+      e1.ySpeed = 0;
     }
   }
 }
