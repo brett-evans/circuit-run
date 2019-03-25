@@ -1,6 +1,6 @@
-
-
 class Player {
+  // this hadles drawing and moving the player
+  
   float playerX , playerY;
   float xSpeed;
   float playerRadius;
@@ -17,17 +17,30 @@ class Player {
     ellipse(playerX, playerY, playerRadius, playerRadius);
   }
   
-  void moveP () {
-    if (mousePressed == true) {
-      playerX = playerX + xSpeed;
-    }
-    if (playerX > 375) {
-      playerX = 25;
+  void keyPressed() {
+    if (key == CODED) {
+      if (keyCode == RIGHT) {
+        if (keyPressed == true) {
+          xSpeed = 2;
+          playerX= playerX + xSpeed;
+        }
+      } else if (keyCode == LEFT) {
+        if (keyPressed == true) {
+          xSpeed = -2;
+          playerX = playerX + xSpeed;
+        }
+      } 
     }
   }
-}
+  
+  
+} //// end player class
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Enemy {
+  // handles drawing moving and reactions from enemy
+  
+  
   float enemyX , enemyY;
   float ySpeed;
   float enemyRadius;
@@ -53,14 +66,22 @@ class Enemy {
       ySpeed = ySpeed * -1;
     }
   }
-}
-
-class GameState {
-
+  
   void collisionDetection () {
-    if (p1.playerRadius > dist(p1.playerX , p1.playerY , e1.enemyX , e1.enemyY)) {
-      p1.xSpeed = 0;
-      e1.ySpeed = 0;
+    
+    if (p1.playerRadius > dist(p1.playerX , p1.playerY , enemyX , enemyY)) {
+      p1.xSpeed = 0;     
+      ySpeed = 0;
     }
   }
-}
+  
+  
+}//// end enemy class
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+class GameState {
+// this handles what happens when the player and enemy collides
+
+  
+  
+}//// end GameState class
