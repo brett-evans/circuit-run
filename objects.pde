@@ -31,26 +31,20 @@ class Player {
         }
       } 
     }
-  }
-  
-  
+  }  
 } //// end player class
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class Enemy {
   // handles drawing moving and reactions from enemy
-  
-  
   float enemyX , enemyY;
   float ySpeed;
   float enemyRadius;
-
   
-  
-  Enemy (float eX, float eY , float ySpeedValue , float radiusValue ) {
+  Enemy (float eX, float radiusValue ) {
     enemyX = eX;
-    enemyY = eY;
-    ySpeed = ySpeedValue;
+    enemyY = random(25, 200);
+    ySpeed = random(3, 8);
     enemyRadius = radiusValue;
   }
   
@@ -60,33 +54,55 @@ class Enemy {
   }
   
   void moveE () {
-    enemyY = enemyY + ySpeed;
+      enemyY = enemyY + ySpeed;
     
-    if (enemyY > 375 || enemyY < 25) {
-      ySpeed = ySpeed * -1;
-    }
+      if (enemyY > 375 || enemyY < 25) {
+        ySpeed = ySpeed * -1;
+      } 
   }
   
   void collisionDetection () {
     
     if (p1.playerRadius > dist(p1.playerX , p1.playerY , enemyX , enemyY)) {
-      p1.xSpeed = 0;     
-      ySpeed = 0;
+      gameOverStatus = true;
     }
   }
-  
-  
 }//// end enemy class
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 class GameState {
 // this handles what happens when the player and enemy collides
   
+  int resetRectX = 130;
+  int resetRectY = 305;
+  int resetRectW = 140;
+  int resetRectH = 55;
+  
   void arrayOfEnemies () {
     enemies = new Enemy[4];
-  
     for (int i = 0; i < enemies.length; i = i + 1) {
-      enemies[i] = new Enemy (95 + i * 75, 200 , 5 , 25);
+      enemies[i] = new Enemy (95 + i * 75 , 25);
+    }
+  }
+  
+  void printGameOver () {
+    rect(35 , 100 , 300 , 55);
+    fill(#F77241);
+    text ("GAME OVER", 40, 145);
+  }
+  
+  void drawResetButton () {
+    fill(#41AAF7);
+    rect(resetRectX, resetRectY, resetRectW, resetRectH);
+    fill(#F77241);
+    text("reset", 145, 350);  
+  }
+  
+  void gameReset () {
+    if (mousePressed) {  
+      if (mouseX > resetRectX && mouseX < resetRectX + resetRectW && mouseY > resetRectY && mouseY < resetRectY + resetRectH) {
+        gameOverStatus = false; 
+      }
     }
   }
   
@@ -94,23 +110,21 @@ class GameState {
     PFont font;
     
     for (int i = 0; i < enemies.length; i = i + 1) {
-      if (enemies[i].ySpeed == 0) {
+  
+      if (gameOverStatus == true) {
         p1.playerX = 25;
-        
+          // setup font for signs
         background(255);
         fill(#41AAF7);
-        font = createFont ("SimSun-ExtB-48.vlw", 48);
+        font = createFont ("HPSimplified-LightItalic-48.vlw", 48);
         textFont(font);
-        rect(35 , 100 , 300 , 55);
-        fill(#F77241);
-        text ("GAME OVER", 40, 150);
         
-        fill(#41AAF7);
-        rect(130, 305, 140, 55);
-        fill(#F77241);
-        text("reset", 145, 350);
+          //call game over
+        printGameOver();
+        
+          //call reset button
+        drawResetButton();
       }
     }
-  }
-  
+  }  
 }//// end GameState class
