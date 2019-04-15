@@ -1,9 +1,10 @@
 class Player {
   // this hadles drawing and moving the player
-  
+    
   float playerX , playerY;
   float xSpeed;
   float playerRadius;
+  
   
   Player (float pX, float pY , float xSpeedValue, float radiusValue) {
     playerX = pX;
@@ -12,10 +13,12 @@ class Player {
     playerRadius = radiusValue;
   }
   
+  
   void drawP () {
     fill(#FA0A26);
     ellipse(playerX, playerY, playerRadius, playerRadius);
   }
+  
   
   void keyPressed() {
     if (key == CODED) {
@@ -31,7 +34,9 @@ class Player {
         }
       } 
     }
-  }  
+  }
+  
+  
 } //// end player class
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -65,6 +70,7 @@ class Enemy {
     
     if (p1.playerRadius > dist(p1.playerX , p1.playerY , enemyX , enemyY)) {
       gameOverStatus = true;
+      win = false;
     }
   }
 }//// end enemy class
@@ -72,6 +78,8 @@ class Enemy {
 
 class GameState {
 // this handles what happens when the player and enemy collides
+  
+  int lvl = 1;
   
   int resetRectX = 130;
   int resetRectY = 305;
@@ -85,17 +93,39 @@ class GameState {
     }
   }
   
-  void printGameOver () {
+  
+  void drawLvlCounter() {
+    
+    fill(#0AC15A);
+    rect(340, 25, 55, 30);
+    fill(#DB3D35);
+    
+    font = createFont("YuGothicUI-Bold-15.vlw", 15);
+    textFont(font);
+    text(lvl, 362, 45);
+  }
+  
+  
+  void drawGameOver () {
     rect(35 , 100 , 300 , 55);
     fill(#F77241);
-    text ("GAME OVER", 40, 145);
+    text("GAME OVER", 40, 145);
   }
+  
   
   void drawResetButton () {
     fill(#41AAF7);
     rect(resetRectX, resetRectY, resetRectW, resetRectH);
     fill(#F77241);
     text("reset", 145, 350);  
+  }
+  
+  
+  void drawNextLvlButton () {
+    fill(#41AAF7);
+    rect(resetRectX, resetRectY, resetRectW, resetRectH);
+    fill(#F77241);
+    text("Next", 145, 350);  
   }
   
   void gameReset () {
@@ -106,8 +136,8 @@ class GameState {
     }
   }
   
+  
   void gameOver () {
-    PFont font;
     
     for (int i = 0; i < enemies.length; i = i + 1) {
   
@@ -116,15 +146,34 @@ class GameState {
           // setup font for signs
         background(255);
         fill(#41AAF7);
-        font = createFont ("HPSimplified-LightItalic-48.vlw", 48);
+        font = createFont("HPSimplified-LightItalic-48.vlw", 48);
         textFont(font);
         
-          //call game over
-        printGameOver();
+        //call game over
+        drawGameOver();
         
-          //call reset button
-        drawResetButton();
+        //call reset button or next level
+        if (win == false) {
+          drawResetButton();
+        } else if (win == true) {
+          drawNextLvlButton();
+        }
+        
+        
       }
     }
-  }  
+  }
+ 
+  
+  void gameWin () {
+    
+    int finishLine = 345;
+    
+    if (p1.playerX + p1.playerRadius >= finishLine) {
+      lvl = lvl + 1;
+      gameOverStatus = true;
+      win = true;
+    }
+  
+  }
 }//// end GameState class

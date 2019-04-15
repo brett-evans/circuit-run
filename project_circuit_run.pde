@@ -5,7 +5,10 @@ Player p1 = new Player (25 , 200 , 5 , 25);
 
 GameState play = new GameState ();
 
+boolean win;
 boolean gameOverStatus = false;
+PFont font;
+
 
 void setup () {
   size(400,400);
@@ -16,8 +19,10 @@ void setup () {
 void draw () {
   background(0);
   
+  play.gameWin();
   play.gameOver();
   play.gameReset();
+  play.drawLvlCounter();
   
   
   if (gameOverStatus == false) {
