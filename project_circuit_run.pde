@@ -1,9 +1,8 @@
 
 Enemy[] enemies;
+Player player1 = new Player (25 , 200 , 5 , 25);
+GameState state = new GameState ();
 
-Player p1 = new Player (25 , 200 , 5 , 25);
-
-GameState play = new GameState ();
 
 boolean win;
 boolean gameOverStatus = false;
@@ -11,24 +10,22 @@ PFont font;
 
 
 void setup () {
-  size(400,400);
-  
-  play.arrayOfEnemies();
+  size(800,400);
+  state.arrayOfEnemies();
 } // end setup
+
 
 void draw () {
   background(0);
   
-  play.gameWin();
-  play.gameOver();
-  play.gameReset();
-  play.drawLvlCounter();
+  state.drawLvlCounter();
+  state.gameOver();
+  state.gameReset();
+  state.gameWin();
   
-  
-  if (gameOverStatus == false) {
-    p1.drawP();
-    p1.keyPressed();
-  
+  if (gameOverStatus == false) {  
+    player1.drawP();
+    player1.keyPressed();
     for (int i = 0; i < enemies.length; i = i + 1) {
       if (gameOverStatus == false) {
         enemies[i].drawE();
@@ -37,4 +34,6 @@ void draw () {
       }
     }
   }
+  
+  
 }// end draw
